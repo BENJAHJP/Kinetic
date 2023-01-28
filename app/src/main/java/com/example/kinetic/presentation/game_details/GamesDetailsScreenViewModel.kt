@@ -24,9 +24,6 @@ class GamesDetailsScreenViewModel @Inject constructor(
     private val getGameDetailsUseCase: GetGameDetailsUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    var scale by mutableStateOf(1f)
-
     private var gameId: String? by mutableStateOf("")
 
     private val _uiEvent = Channel<UiEvent>()

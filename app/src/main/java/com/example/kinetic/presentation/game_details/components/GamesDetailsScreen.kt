@@ -141,17 +141,8 @@ fun GameDetailsScreen(
                                 .graphicsLayer {
                                     translationY = 0.4f * scrollState.value
                                 }
-                                .pointerInput(Unit){
-                                    detectTransformGestures {_, _, zoom, _ ->
-                                        viewModel.scale *= zoom
-                                    }
-                                }
                         ) {
                             AsyncImage(
-                                modifier = Modifier.graphicsLayer {
-                                    scaleX = maxOf(.5f, minOf(3f, viewModel.scale))
-                                    scaleY = maxOf(.5f, minOf(3f, viewModel.scale))
-                                },
                                 contentScale = ContentScale.Crop,
                                 model = state.gameDetails?.backgroundImage,
                                 contentDescription = "image"
