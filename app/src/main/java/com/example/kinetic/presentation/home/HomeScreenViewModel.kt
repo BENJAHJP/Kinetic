@@ -67,25 +67,24 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     fun nextPage(){
-        viewModelScope.launch {
-            if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
-                _state.value = HomeScreenState(isNextLoading = true)
-                incrementPage()
-                if (page.value > 1){
-                    getGamesUseCase(page.value, PAGE_SIZE).onEach { result ->
-                        when(result){
-                            is Resource.Error -> {
-                                _state.value = HomeScreenState(message = result.message?: "Unexpected error occurred")
-                                sendUiEvent(UiEvent.ShowToast(message = result.message?:"unexpected error occurred"))
-                            }
-                            is Resource.Success -> {
-                                appendGames(result.data?: emptyList())
-                            } else -> Unit
+        if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
+            _state.value = HomeScreenState(isNextLoading = true)
+            incrementPage()
+            if (page.value > 1){
+                getGamesUseCase(page.value, PAGE_SIZE).onEach { result ->
+                    when(result){
+                        is Resource.Error -> {
+                            _state.value = HomeScreenState(message = result.message?: "Unexpected error occurred")
+                            sendUiEvent(UiEvent.ShowToast(message = result.message?:"unexpected error occurred"))
                         }
-                    }.launchIn(viewModelScope)
-                }
-                _state.value = HomeScreenState(isNextLoading = false)
+                        is Resource.Success -> {
+                            appendGames(result.data?: emptyList())
+                            _state.value = HomeScreenState(isNextLoading = true)
+                        } else -> Unit
+                    }
+                }.launchIn(viewModelScope)
             }
+            _state.value = HomeScreenState(isNextLoading = false)
         }
     }
     private fun appendGames(games: List<GameModel>){
