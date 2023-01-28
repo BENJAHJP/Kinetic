@@ -61,6 +61,7 @@ fun SearchScreen(
     val state = viewModel.state.value
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val games = viewModel.currentGames.value
+    val isNextLoading = viewModel.isNextLoading
 
     LaunchedEffect(key1 = true, context){
         viewModel.uiEvent.collect {event ->
@@ -148,7 +149,7 @@ fun SearchScreen(
                         }
                         itemsIndexed(games) { i, game ->
                             viewModel.onChangeGamesScrollPosition(i)
-                            if ((i + 1) >= (page * PAGE_SIZE) && !state.isNextLoading) {
+                            if ((i + 1) >= (page * PAGE_SIZE) && !isNextLoading) {
                                 viewModel.nextPage()
                             }
                             GameCard(
@@ -163,7 +164,7 @@ fun SearchScreen(
                             )
                         }
                     }
-                    if (state.isNextLoading) {
+                    if (isNextLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.align(Alignment.BottomCenter)
                         )

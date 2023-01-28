@@ -25,6 +25,7 @@ const val PAGE_SIZE = 20
 class SearchScreenViewModel @Inject constructor(
     private val searchGameUseCase: SearchGameUseCase
 ) : ViewModel() {
+    var isNextLoading by mutableStateOf(false)
     val currentGames: MutableState<List<GameModel>> = mutableStateOf(ArrayList())
 
     val page = mutableStateOf(1)
@@ -58,23 +59,25 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     fun nextPage(){
-        if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
-            _state.value = SearchScreenState(isNextLoading = true)
-            incrementPage()
-            if (page.value > 1){
-                searchGameUseCase(searchQuery,page.value, PAGE_SIZE).onEach { result ->
-                    when(result){
-                        is Resource.Error -> {
-                            _state.value = SearchScreenState(message = result.message?: "Unexpected error occurred")
-                            sendUiEvent(UiEvent.ShowToast(message = result.message?:"unexpected error occurred"))
+        viewModelScope.launch {
+            if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
+                isNextLoading = true
+                incrementPage()
+                if (page.value > 1){
+                    searchGameUseCase(searchQuery,page.value, PAGE_SIZE).onEach { result ->
+                        when(result){
+                            is Resource.Error -> {
+                                _state.value = SearchScreenState(message = result.message?: "Unexpected error occurred")
+                                sendUiEvent(UiEvent.ShowToast(message = result.message?:"unexpected error occurred"))
+                            }
+                            is Resource.Success -> {
+                                appendGames(result.data?: emptyList())
+                            } else -> Unit
                         }
-                        is Resource.Success -> {
-                            appendGames(result.data?: emptyList())
-                        } else -> Unit
-                    }
-                }.launchIn(viewModelScope)
+                    }.launchIn(viewModelScope)
+                }
+                isNextLoading = false
             }
-            _state.value = SearchScreenState(isNextLoading = false)
         }
     }
     private fun appendGames(games: List<GameModel>){
