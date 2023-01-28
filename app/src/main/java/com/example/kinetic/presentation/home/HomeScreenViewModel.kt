@@ -68,7 +68,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun nextPage(){
         if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
-            _state.value = HomeScreenState(isLoading = true)
+            this._state.value = HomeScreenState(isLoading = true)
             incrementPage()
             if (page.value > 1){
                 getGamesUseCase(page.value, PAGE_SIZE).onEach { result ->
@@ -83,7 +83,7 @@ class HomeScreenViewModel @Inject constructor(
                     }
                 }.launchIn(viewModelScope)
             }
-            _state.value = HomeScreenState(isNextLoading = false)
+            this._state.value = HomeScreenState(isNextLoading = false)
         }
     }
     private fun appendGames(games: List<GameModel>){
