@@ -63,7 +63,7 @@ fun SearchScreen(
     val state = viewModel.state.value
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val games = viewModel.currentGames.value
-    val isNextLoading = viewModel.isNextLoading
+    val isNextLoading = viewModel.isNextLoading.value
 
     LaunchedEffect(key1 = true, context){
         viewModel.uiEvent.collect {event ->
