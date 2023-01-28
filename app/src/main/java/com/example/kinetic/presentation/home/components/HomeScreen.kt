@@ -63,7 +63,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val state = viewModel.state.value
     val games = viewModel.currentGames.value
-    val isNextLoading = viewModel.isNextLoading
+    val isNextLoading = viewModel.isNextLoading.value
 
     LaunchedEffect(key1 = true, context){
         viewModel.uiEvent.collect { event ->

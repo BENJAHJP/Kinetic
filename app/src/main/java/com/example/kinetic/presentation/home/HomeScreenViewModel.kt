@@ -26,7 +26,7 @@ const val PAGE_SIZE = 20
 class HomeScreenViewModel @Inject constructor(
     private val getGamesUseCase: GetGamesUseCase,
 ): ViewModel() {
-    var isNextLoading by mutableStateOf(false)
+    var isNextLoading = mutableStateOf(false)
     val currentGames: MutableState<List<GameModel>> = mutableStateOf(ArrayList())
     var darkTheme by mutableStateOf(false)
     val page = mutableStateOf(1)
@@ -70,7 +70,7 @@ class HomeScreenViewModel @Inject constructor(
     fun nextPage(){
         viewModelScope.launch {
             if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
-                isNextLoading = true
+                isNextLoading.value = true
                 incrementPage()
                 if (page.value > 1){
                     getGamesUseCase(page.value, PAGE_SIZE).onEach { result ->
@@ -85,7 +85,7 @@ class HomeScreenViewModel @Inject constructor(
                         }
                     }.launchIn(viewModelScope)
                 }
-                isNextLoading = false
+                isNextLoading.value = false
             }
         }
     }
