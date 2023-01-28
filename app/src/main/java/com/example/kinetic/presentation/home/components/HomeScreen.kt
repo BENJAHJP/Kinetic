@@ -149,10 +149,7 @@ fun HomeScreen(
                                 )
                             }
                         }
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
+                        Box() {
                             LazyVerticalGrid(
                                 columns = GridCells.Fixed(2),
                                 horizontalArrangement = Arrangement.SpaceBetween
@@ -181,7 +178,9 @@ fun HomeScreen(
                                 }
                             }
                             if (state.isNextLoading) {
-                                CircularProgressIndicator()
+                                CircularProgressIndicator(
+                                    modifier = Modifier.align(Alignment.BottomCenter)
+                                )
                             }
                         }
                     }

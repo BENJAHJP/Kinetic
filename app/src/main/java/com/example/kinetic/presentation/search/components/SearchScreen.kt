@@ -164,7 +164,9 @@ fun SearchScreen(
                         }
                     }
                     if (state.isNextLoading) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.BottomCenter)
+                        )
                     }
                 }
             }
