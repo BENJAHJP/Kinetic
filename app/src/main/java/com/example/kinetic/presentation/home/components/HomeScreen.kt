@@ -171,15 +171,16 @@ fun HomeScreen(
                                     )
                                 }
                                 item {
-                                    Spacer(modifier = Modifier.height(50.dp))
+                                    Spacer(modifier = Modifier.height(100.dp))
                                 }
                                 item {
-                                    Spacer(modifier = Modifier.height(50.dp))
+                                    Spacer(modifier = Modifier.height(100.dp))
                                 }
                             }
                             if (isNextLoading) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.align(Alignment.BottomCenter)
+                                        .padding(bottom = 50.dp)
                                 )
                             }
                         }
