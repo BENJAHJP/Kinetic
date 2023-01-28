@@ -134,7 +134,7 @@ fun HomeScreen(
                         LazyColumn() {
                             item {
                                 Column(
-                                    modifier = Modifier.height(100.dp)
+                                    modifier = Modifier.height(150.dp)
                                 ) {
 
                                 }
@@ -181,9 +181,7 @@ fun HomeScreen(
                                 }
                             }
                             if (state.isNextLoading) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.align(Alignment.BottomCenter)
-                                )
+                                CircularProgressIndicator()
                             }
                         }
                     }
