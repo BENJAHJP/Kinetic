@@ -63,6 +63,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val state = viewModel.state.value
     val games = viewModel.currentGames.value
+    val isNextLoading = viewModel.isNextLoading
 
     LaunchedEffect(key1 = true, context){
         viewModel.uiEvent.collect { event ->
@@ -155,7 +156,7 @@ fun HomeScreen(
                             ) {
                                 itemsIndexed(games) { i, game ->
                                     viewModel.onChangeGamesScrollPosition(i)
-                                    if ((i + 1) >= (page * PAGE_SIZE) && !state.isNextLoading) {
+                                    if ((i + 1) >= (page * PAGE_SIZE) && !isNextLoading) {
                                         viewModel.nextPage()
                                     }
                                     GameCard(
@@ -176,7 +177,7 @@ fun HomeScreen(
                                     Spacer(modifier = Modifier.height(50.dp))
                                 }
                             }
-                            if (state.isNextLoading) {
+                            if (isNextLoading) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.align(Alignment.BottomCenter)
                                 )
