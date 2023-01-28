@@ -68,7 +68,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun nextPage(){
         if((gamesScrollPosition + 1) >= (page.value * PAGE_SIZE)){
-            _state.value = HomeScreenState(isNextLoading = true)
+            _state.value = HomeScreenState(isLoading = true)
             incrementPage()
             if (page.value > 1){
                 getGamesUseCase(page.value, PAGE_SIZE).onEach { result ->
