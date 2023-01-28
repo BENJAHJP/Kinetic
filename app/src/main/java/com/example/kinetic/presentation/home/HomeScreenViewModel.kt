@@ -82,7 +82,7 @@ class HomeScreenViewModel @Inject constructor(
                                 appendGames(result.data?: emptyList())
                             } else -> Unit
                         }
-                    }
+                    }.
                 }
                 _state.value = HomeScreenState(isNextLoading = false)
             }
