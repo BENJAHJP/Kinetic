@@ -3,6 +3,7 @@ package com.example.kinetic.presentation.game_details.components
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -139,8 +141,17 @@ fun GameDetailsScreen(
                                 .graphicsLayer {
                                     translationY = 0.4f * scrollState.value
                                 }
+                                .pointerInput(Unit){
+                                    detectTransformGestures {_, _, zoom, _ ->
+                                        viewModel.scale *= zoom
+                                    }
+                                }
                         ) {
                             AsyncImage(
+                                modifier = Modifier.graphicsLayer {
+                                    scaleX = maxOf(.5f, minOf(3f, viewModel.scale))
+                                    scaleY = maxOf(.5f, minOf(3f, viewModel.scale))
+                                },
                                 contentScale = ContentScale.Crop,
                                 model = state.gameDetails?.backgroundImage,
                                 contentDescription = "image"
